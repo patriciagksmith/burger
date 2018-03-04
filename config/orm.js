@@ -1,6 +1,3 @@
-// Here is the O.R.M. where you write functions that takes inputs and conditions
-// and turns them into database commands like SQL.
-
 var connection = require("./connection.js");
 
 function printQuestionMarks(num) {
@@ -25,41 +22,40 @@ function objToSql(ob) {
 }
 
 var orm = {
-  all: function(tableInput, cheeseburger) {
+  all: function(tableInput, cb) {
     var queryString = "SELECT * FROM " + tableInput + ";";
     connection.query(queryString, function(err, result) {
       if (err) {
         throw err;
       }
-      cheeseburger(result);
+      cb(result);
     });
   },
  
-  create: function(table, columns, values, burger) {
+  create: function(table, cols, vals, cb) {
     var queryString = "INSERT INTO " + table;
 
     queryString += " (";
-    queryString += columns.toString();
+    queryString += cols.toString();
     queryString += ") ";
     queryString += "VALUES (";
-    queryString += printQuestionMarks(values.length);
+    queryString += printQuestionMarks(vals.length);
     queryString += ") ";
 
     console.log(queryString);
 
-    connection.query(queryString, values, function(err, result) {
+    connection.query(queryString, vals, function(err, result) {
       if (err) {
         throw err;
       }
-      cheeseburger(result);
+      cb(result);
     });
   },
-
-  update: function(table, bjColVals, condition, burger) {
+  update: function(table, objColVals, condition, cb) {
     var queryString = "UPDATE " + table;
 
     queryString += " SET ";
-    queryString += objToSql(bjColValss);
+    queryString += objToSql(objColVals);
     queryString += " WHERE ";
     queryString += condition;
 
@@ -68,7 +64,7 @@ var orm = {
       if (err) {
         throw err;
       }
-      burger(result);
+      cb(result);
     });
   }
 };
