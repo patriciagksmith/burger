@@ -1,13 +1,14 @@
 var express = require("express");
 var methodOverride = require("method-override");
 var bodyParser = require("body-parser");
-var PORT = process.env.PORT || 3000;
+var PORT = process.env.PORT || 8000;
 var app = express();
-// Serve static content for the app from the "public" directory in the application directory.
-app.use(express.static("/public"));
-// parse application/x-www-form-urlencoded
+
+app.use(express.static("public"));
+
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(methodOverride("_method"));
+app.use(bodyParser.json());
+
 var exphbs = require("express-handlebars");
 
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
